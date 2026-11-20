@@ -1,0 +1,10 @@
+node_modules/
+dist/
+target/
+.env
+.idea/
+*.iml
+*.log
+/发布/
+/界面设计稿/
+__pycache__/
