@@ -35,6 +35,27 @@ java -jar '.\backend\target\workorders.jar'
 
 如需在其他本机实例启用测试按钮，另建名为 `workorders_demo` 的 MySQL 库，为它分配仅访问该库的独立账号，在启动进程中设置 `DEMO_DB_URL`、`DEMO_DB_USER`、`DEMO_DB_PASSWORD`。应用会在此库内建表并初始化三个测试账号。本机回环地址可使用快捷入口，未配置演示库的实例使用普通密码登录。
 
+## 全接口 Mock
+
+Mock 前端开发环境无需启动 Spring Boot 或 MySQL。进入 `frontend` 目录执行：
+
+```powershell
+npm ci
+npm run dev:mock
+```
+
+打开 [Mock 登录页](http://127.0.0.1:5174/login)，点击任意测试身份按钮。验证手动登录时可使用下列 Mock 专用账号。
+
+| 身份 | 用户名 | 密码 |
+|---|---|---|
+| 管理员 | `mock_admin` | `mock-admin-2026` |
+| 维修主管 | `mock_supervisor` | `mock-supervisor-2026` |
+| 维修员 | `mock_technician` | `mock-technician-2026` |
+
+Mock 覆盖认证、账号、设备和工单的全部 21 个接口。两套演示数据分别供测试按钮和手动登录使用。各自的新增、编辑和状态变化保存在当前进程内，重启即恢复初始数据。摘要由原文取首末句作为两列示例，并返回定位所需的 UTF-16 偏移。真实算法由 Spring Boot 实现。
+
+在 `frontend` 执行 `npm run test:mock` 可运行 HTTP 契约测试。连接真实后端时使用 `npm run dev`，通过 `API_PROXY_TARGET` 指定地址。
+
 ## 构建与验证
 
 在源码根目录执行以下命令，需要 Node.js 22.12+ 或 24、JDK 17 和 Maven 3.9。本地开发时可运行前端的 `npm run dev`，Vite 将 API 请求代理至后端。前端生产构建先于 Maven 打包，静态资源将一同写入可执行 JAR。
